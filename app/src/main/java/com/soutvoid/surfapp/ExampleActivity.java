@@ -1,5 +1,7 @@
 package com.soutvoid.surfapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,5 +17,10 @@ public class ExampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_example);
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, ExampleActivity.class);
+        context.startActivity(intent);
     }
 }
