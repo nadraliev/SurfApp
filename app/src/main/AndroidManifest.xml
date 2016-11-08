@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ExampleActivity"/>
+        <activity android:name=".ExampleActivity" />
+        <activity android:name=".RotatableActivity"></activity>
     </application>
 
 </manifest>

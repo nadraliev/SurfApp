@@ -7,10 +7,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String INTENT_NAME_KEY = "name";
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,16 +26,31 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TAG", "onCreate");
         setContentView(R.layout.activity_main);
 
-        Button button = (Button)findViewById(R.id.button);
+        Button button = (Button)findViewById(R.id.main_next_btn);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ExampleActivity.start(MainActivity.this);
+                EditText editText = (EditText)findViewById(R.id.main_name_edittext);
+                //ExampleActivity.start(MainActivity.this, INTENT_NAME_KEY, editText.getText().toString());
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(INTENT_NAME_KEY, editText.getText().toString());
+                sendIntent.setType("text/plain");
+
+                if (sendIntent.resolveActivity(getPackageManager()) != null)
+                    startActivity(sendIntent);
             }
         });
 
-        if (savedInstanceState != null)
-            ((TextView)findViewById(R.id.textView)).setText(savedInstanceState.getString("saved"));
+        Button launchRotateActivity = (Button)findViewById(R.id.main_launch_rotatable);
+        launchRotateActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RotatableActivity.start(MainActivity.this);
+            }
+        });
+
+
     }
 
     @Override
@@ -75,8 +98,5 @@ public class MainActivity extends AppCompatActivity {
         outState.putString("saved", "Ooohooo, i was saved");
     }
 
-    public static void start(Context context) {
-        Intent intent = new Intent(context, MainActivity.class);
-        context.startActivity(intent);
-    }
+
 }
